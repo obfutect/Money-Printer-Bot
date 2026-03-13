@@ -16,6 +16,7 @@ Releases may include:
 
 ## Why Use It
 
+- Secure - the bot secures your private key on the very first run (___it is your responsibility to **back it up**___)
 - Built for Solana HFT arbitrage
 - Fast transaction delivery
 - Reliable multi-path execution
@@ -78,6 +79,14 @@ Actual performance depends heavily on hardware quality, network quality, market 
 3. Review the example configuration.
 4. Prepare your Linux host and wallet environment.
 5. Launch the bot.
+
+## Key Protection
+
+On first run, Money Printer automatically protects the configured Solana keypair file on disk and continues operating with the protected key as usual.
+
+This is intended to reduce the risk of casual key exposure on the host machine. However, operators should not treat it as a substitute for proper system security, access control, and backups.
+
+**Important:** back up your original keypair file before the first launch. Once the file has been protected by the bot, you will not be able to decrypt it yourself outside Money Printer.
 
 ## Important Notes
 

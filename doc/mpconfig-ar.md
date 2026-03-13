@@ -240,6 +240,8 @@ Type: `string`
 الصيغة المتوقعة:
 - JSON array keypair file
 
+عند أول تشغيل، يتم تشفير ملف `keypair` تلقائيًا إذا لم يكن مشفرًا بالفعل.
+
 هذه القيمة ثابتة عند بدء التشغيل ولا يمكن ربطها بـ placeholder.
 
 ## `[external_config]`

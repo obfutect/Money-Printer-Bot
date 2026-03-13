@@ -240,6 +240,8 @@ Absolute or relative path to the Solana keypair file used for signing transactio
 Expected format:
 - JSON array keypair file
 
+On first run, the keypair file is encrypted automatically if it is not already encrypted.
+
 This value is startup-fixed and cannot be placeholder-bound.
 
 ## `[external_config]`

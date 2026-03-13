@@ -240,6 +240,8 @@ Type: `string`
 期待される形式:
 - JSON array keypair file
 
+初回起動時、`keypair` ファイルがまだ暗号化されていなければ、自動的に暗号化されます。
+
 これは startup-fixed の値であり、placeholder では指定できません。
 
 ## `[external_config]`

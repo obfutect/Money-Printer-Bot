@@ -240,6 +240,8 @@ Type: `string`
 Очікуваний формат:
 - JSON array keypair file
 
+Під час першого запуску файл keypair буде автоматично зашифровано, якщо він ще не зашифрований.
+
 Це startup-fixed значення і воно не може бути задане через placeholder.
 
 ## `[external_config]`

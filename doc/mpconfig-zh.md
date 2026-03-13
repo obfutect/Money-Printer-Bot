@@ -240,6 +240,8 @@ Type: `string`
 期望格式：
 - JSON array keypair file
 
+首次运行时，如果 `keypair` 文件尚未加密，程序会自动对其进行加密。
+
 该值属于 startup-fixed，不能使用 placeholder。
 
 ## `[external_config]`

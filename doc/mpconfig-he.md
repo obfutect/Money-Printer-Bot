@@ -240,6 +240,8 @@ Type: `string`
 הפורמט המצופה:
 - JSON array keypair file
 
+בהפעלה הראשונה, קובץ ה-keypair יוצפן אוטומטית אם הוא עדיין לא מוצפן.
+
 זהו ערך startup-fixed ואי אפשר לקשור אותו באמצעות placeholder.
 
 ## `[external_config]`
