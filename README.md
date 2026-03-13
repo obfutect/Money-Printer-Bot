@@ -42,7 +42,11 @@ Current execution paths include:
 - Astra
 - HelloMoon
 
+**_Unprofitable_** transactions are **_failed_**, hence no tip ever gets wasted.
+
 Support may evolve between releases.
+
+***_It is important to mention that some providers strongly discourage failing of even unprofitable transactions._**
 
 ## Fee Model
 
@@ -59,9 +63,11 @@ Direct execution costs may include transaction fees, priority fees, tips, flash-
 ## System Requirements
 
 Minimum recommended environment:
-- Linux
-- stable network connection
-- at least 8 CPU cores
+- Linux 64-bit
+- CPU with at least 8 cores
+- RAM: >256MB
+- Disk: just enough for the binary itself
+- stable and fast network connection
 
 Actual performance depends heavily on hardware quality, network quality, market selection, and operating conditions.
 
@@ -79,8 +85,8 @@ Actual performance depends heavily on hardware quality, network quality, market 
 - Trading is risky and profits are not guaranteed.
 - You are responsible for your infrastructure, wallet security, and compliance in your jurisdiction.
 
-## Support
+[//]: # (## Support)
 
-For onboarding, release questions, or support:
+[//]: # (For onboarding, release questions, or support:)
 
-**[add contact here]**
+[//]: # (**[add contact here]**)
