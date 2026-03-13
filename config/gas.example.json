@@ -1,0 +1,60 @@
+{
+
+    "enable_cu_limit":  330525,
+
+    "enable_strats": true,
+    "enable_min_prio": 5010,
+    "enable_max_prio": 19309,
+    "spam_cooldown_ms": 230,
+
+    "enable_temporal": false,
+    "temporal_cooldown_ms": 230,
+    "temporal_min_prio":  1300,
+    "temporal_max_prio": 5200,
+    "temporal_max_tip": 9501000,
+    "temporal_min_tip": 1741000,
+
+    "helius_minimum":20000,
+    "enable_helius": false,
+    "helius_min_tip": 201000,
+    "helius_max_tip": 1481000,
+    "helius_min_prio":  1300,
+    "helius_max_prio": 5200,
+    "helius_cooldown_ms": 230,
+
+    "enable_jito": false,
+    "enable_jito_min_tip": 69700,
+    "enable_jito_max_tip": 1719580,
+    "jito_cooldown_ms": 230,
+    "jito_min_prio": 122,
+    "jito_max_prio": 500,
+
+    "enable_helius_swqos": false,
+    "helius_swqos_min_tip": 26100,
+    "helius_swqos_max_tip": 323600,
+    "helius_swqos_min_prio":  1300,
+    "helius_swqos_max_prio": 5200,
+    "helius_swqos_cooldown_ms": 230,
+
+    "minimum_astra": 5200,
+    "enable_astra": false,
+    "enable_astra_min_tip": 21000,
+    "enable_astra_max_tip": 800000,
+    "astra_min_prio":  1300,
+    "astra_max_prio": 5200,
+    "astralane_cooldown_ms": 230,
+
+    "enable_hellomoon": false,
+    "hellomoon_min_tip": 1001000,
+    "hellomoon_max_tip": 26802000,
+    "hellomoon_min_prio":  1300,
+    "hellomoon_max_prio": 5200,
+    "hellomoon_cooldown_ms": 230,
+
+    "enable_flashblock": false,
+    "flashblock_min_tip": 201000,
+    "flashblock_max_tip": 19950000,
+    "flashblock_min_prio":  1300,
+    "flashblock_max_prio": 5200,
+    "flashblock_cooldown_ms": 222
+}
