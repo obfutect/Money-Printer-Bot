@@ -56,7 +56,7 @@ Instead:
 - you run the bot on your own machine
 - you control your own wallet, network, and operating environment
 - compensation is taken only from profitable executions
-- the fee is calculated as a percentage of net profit after direct execution costs
+- the fee is 5% of net profit after direct execution costs
 
 Direct execution costs may include transaction fees, priority fees, tips, flash-loan fees, and other route-related expenses.
 
