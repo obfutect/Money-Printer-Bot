@@ -4,6 +4,12 @@ This directory contains example external configuration files used by Money Print
 
 The main config file, `mpconfig.example.toml`, can reference these files through the `[external_config]` section. In a typical setup, you copy these examples, adjust them for your environment, and rename them to the paths used by your final `mpconfig.toml`.
 
+These files also exist to fit more easily into operators' existing workflows, automation, and deployment habits, especially for users who already manage external market, LUT, and runtime tuning files for other bots.
+
+When external config is enabled, Money Printer checks these files at runtime and reloads updated contents without requiring a full restart.
+
+In addition, `mpconfig.toml` may reference values from `gas.json` by placeholder name instead of embedding literal values directly. For example, a setting in `mpconfig.toml` may use a value like `{enable_cu_limit}`, which is then resolved from the JSON file at runtime.
+
 ## Files
 
 ### `gas.example.json`
@@ -49,4 +55,5 @@ Then point your `mpconfig.toml` to those paths under `[external_config]`.
 
 - These files are examples, not universal defaults.
 - Values should be reviewed and adjusted for your own environment.
+- Runtime-reload behavior depends on using external config through `[external_config]`.
 - Performance depends heavily on market selection, fee settings, and infrastructure quality.
