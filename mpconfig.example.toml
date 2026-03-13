@@ -1,0 +1,312 @@
+
+# This flag specifies whether to retrieve market/gas/etc. configuration
+# from external files specified under 'external_config'
+use_external_data = true
+
+# Base trading token.
+# As of now, only WSOL is completely supported. USDC and others should work,
+# but may have issues as they have not been tested.
+base_token = "So11111111111111111111111111111111111111112"
+
+# This RPC endpoint is used for information retrieval (recent block hash, account data, etc.)
+# It is suggested to put the fastest and most capable RPC node here.
+# Example:
+#info_rpc = "https://your-info-rpc.example.com/?api-key=<api_key>"
+info_rpc = "https://your-info-rpc.example.com/?api-key=<api_key>"
+info_rpc_fallback = "https://your-fallback-info-rpc.example.com/?api_key=<api_key>"
+
+# Speaks for itself - sets the CU limit for a transaction.
+cu_limit = "{enable_cu_limit}"  #279_000
+
+# This flag specifies whether Flash Loan should be used or
+# whether you are planning to trade based on your own funds.
+enable_flash = true
+
+# Full path to your account's key pair. The keypair should be saved as
+# JSON file containing the keypair array.
+[key_pair]
+#path_to_secret="/home/user/.config/solana/your-keypair.json"
+path_to_secret="/path/to/your-keypair.json"
+
+# External information sources. Each setting here is optional
+[external_config]
+# This should provide the path to a file contaning market addresses in a form
+#   [[group]]
+#   markets = [
+#       "MARKET_ADDRESS_1",
+#       "MARKET_ADDRESS_2",
+#   ]
+markets = "config/markets.toml"
+#markets = "https://your-config-host.example.com/markets.toml"
+
+
+# Address lookup tables. The file shoudl contain LUT addresses one per line. Like this:
+#    Bbw9nBFqhwSNBbDY1JCS5kUgDhxwDor8QkgFAcueCxrk
+#    E2T6tKsyePwZBCfwZGMqcdyFtqRMwBKp6tfYZanpTRqM
+#    5x5gSoPzxUJwxqzctz4J4DsoJjaDx6J6nscYcyZ3CZkL
+#    CXh2s3cJVwJxZBa7q2ur3paKsWrrznZfApmvjQCPQJpc
+#    6ms6W8YbTdseg1kzPF9nQUL4hULBCQmKN3E9DJcrmML9
+lut = "config/lut.txt"
+#lut = "https://your-config-host.example.com/lut.txt"
+
+# JSON file containing miscellaneous settins like priority fee/tip values, etc.
+misc = "config/gas.json"
+poll_interval_ms = 100
+
+
+########### RPC configuration ##########
+# This part is not optional, as you would need RPC endpoints (at least one)
+# to send transactions.
+[rpc_config]
+# List of endpoints
+endpoint = [
+"https://your-rpc-1.example.com/",
+"https://your-rpc-2.example.com/",
+#"https://your-rpc-3.example.com/"
+]
+
+# Authentication token if needed
+# (In most cases, this is of no use as RPC providers accept auth tokens in the URL.
+auth = ""
+
+# You may, however, disable RPC if you have other channels configured.
+enabled = "{enable_strats}"  #true
+
+# Minimum priority fee PER TRANSACTION.
+# The amount should be specified in RAW LAMPORTS (NOT in microlamports as if specified per CU)
+priority_lamports_from = "{enable_min_prio}"  #100
+
+# Maximum priority fee PER TRANSACTION.
+priority_lamports_to = "{enable_max_prio}"  #500
+
+# RPC cooldown period.
+# Specifies the waiting period between transactions (in milliseconds)
+cool_down = "{spam_cooldown_ms}"  # 320
+
+retries = 0
+
+# RPC client networking options.
+# If unsure, leave these at their defaults.
+# Max idle connections kept per host in the HTTP pool.
+pool_max_idle_per_host = 32
+# How long to keep an idle pooled connection (in milliseconds).
+pool_idle_timeout_ms = 1000
+# TCP keepalive duration for pooled connections (in seconds).
+tcp_keepalive_secs =10  # 20
+# Overall request timeout (in milliseconds).
+timeout_ms = 800 # 500
+# Connection timeout (in milliseconds).
+connect_timeout_ms = 300 # 250
+
+#==== SENDERS =====
+
+########### Jito transactions configuration ##########
+[jito_config]
+
+# List of Jito endpoints
+# [Only "Jito Transactions" is supported.]
+endpoint = [
+    "https://amsterdam.mainnet.block-engine.jito.wtf/api/v1/transactions",
+    "https://frankfurt.mainnet.block-engine.jito.wtf/api/v1/transactions",
+    "https://london.mainnet.block-engine.jito.wtf/api/v1/transactions",
+    "https://ny.mainnet.block-engine.jito.wtf/api/v1/transactions",
+    "https://slc.mainnet.block-engine.jito.wtf/api/v1/transactions",
+    "https://tokyo.mainnet.block-engine.jito.wtf/api/v1/transactions"
+]
+
+# Jito authentication token.
+# Put empty string '""' if you are using them for free
+#auth = "<jito_auth_token>"
+auth = ""
+
+# Enable or disable Jito
+enabled = "{enable_jito}" #false
+
+# Minimum Jito tip value in RAW LAMPORTS
+tip_lamports_from = "{enable_jito_min_tip}" #1000
+
+# Maximum Jito tip value in RAW LAMPORTS
+tip_lamports_to = "{enable_jito_max_tip}" #2000
+
+jito_cooldown_ms = "{jito_cooldown_ms}"
+jito_min_prio = "{jito_min_prio}"
+jito_max_prio = "{jito_max_prio}"
+
+
+# Jito HTTP client networking options (independent from `[rpc_config]`).
+# If unsure, leave these at their defaults.
+# Max idle connections kept per host in the HTTP pool.
+pool_max_idle_per_host = 32
+# How long to keep an idle pooled connection (in milliseconds).
+pool_idle_timeout_ms = 10000
+# TCP keepalive duration for pooled connections (in seconds).
+tcp_keepalive_secs = 10
+# Overall request timeout (in milliseconds).
+timeout_ms = 800
+# Connection timeout (in milliseconds).
+connect_timeout_ms = 600
+
+
+
+# Helius (standard JSON-RPC sendTransaction).
+# Users should include their API key directly in the endpoint URL if needed.
+[helius_config]
+
+# API key appended as `api-key` query parameter to each built-in endpoint.
+#api_key = "<helius_api_key>"
+api_key = ""
+
+# Enable or disable Helius sender.
+enabled = "{enable_helius}" # false
+
+# Minimum Helius tip value in RAW LAMPORTS.
+# This is sent as a separate `system_program::transfer` instruction to a tip account.
+helius_min_tip = "{helius_min_tip}" #1001000
+
+# Maximum Helius tip value in RAW LAMPORTS.
+helius_max_tip = "{helius_max_tip}"  #22001000
+
+# Minimum priority fee PER TRANSACTION in RAW LAMPORTS.
+# Internally this is converted into a ComputeBudget "micro-lamports per CU" price.
+helius_min_prio = "{helius_min_prio}" # 1000
+
+# Maximum priority fee PER TRANSACTION in RAW LAMPORTS.
+helius_max_prio = "{helius_max_prio}"  #5000
+
+# Helius cooldown period between transactions (in milliseconds).
+helius_cooldown_ms = "{helius_cooldown_ms}"  # 280
+
+
+# Helius SWQOS (standard JSON-RPC sendTransaction; same endpoints as `[helius_config]`).
+# The sender will automatically append `swqos_only=true` to each endpoint URL.
+[helius_swqos_config]
+
+# Enable or disable Helius SWQOS sender.
+enabled = "{enable_helius_swqos}" # false
+
+# Minimum Helius SWQOS tip value in RAW LAMPORTS.
+helius_swqos_min_tip = "{helius_swqos_min_tip}" # 6000
+
+# Maximum Helius SWQOS tip value in RAW LAMPORTS.
+helius_swqos_max_tip = "{helius_swqos_max_tip}" #200000
+
+# Minimum priority fee PER TRANSACTION in RAW LAMPORTS.
+# Internally this is converted into a ComputeBudget "micro-lamports per CU" price.
+helius_swqos_min_prio = "{helius_swqos_min_prio}" #100
+
+# Maximum priority fee PER TRANSACTION in RAW LAMPORTS.
+helius_swqos_max_prio = "{helius_swqos_max_prio}" #500
+
+# Helius SWQOS cooldown period between transactions (in milliseconds).
+helius_swqos_cooldown_ms = "{helius_swqos_cooldown_ms}" #300
+
+
+
+# Temporal (text/plain submission).
+# The sender will fanout the same transaction to all endpoints in this list.
+[temporal_config]
+
+client_id = "<temporal_client_id>"
+
+# Enable or disable Temportal sender.
+enabled = "{enable_temporal}" #false
+
+# Minimum Temportal tip value in RAW LAMPORTS.
+# This is sent as a separate `system_program::transfer` instruction to a tip account.
+temporal_min_tip = "{temporal_min_tip}" # 1000000
+
+# Maximum Temportal tip value in RAW LAMPORTS.
+temporal_max_tip = "{temporal_max_tip}" # 30000000
+
+# Minimum priority fee PER TRANSACTION in RAW LAMPORTS.
+# Internally this is converted into a ComputeBudget "micro-lamports per CU" price.
+temporal_min_prio = "{temporal_min_prio}" #500
+
+# Maximum priority fee PER TRANSACTION in RAW LAMPORTS.
+temporal_max_prio = "{temporal_max_prio}"  #1500
+
+# Temportal cooldown period between transactions (in milliseconds).
+temporal_cooldown_ms = "{temporal_cooldown_ms}" #300
+
+
+
+# Flashblock (REST submit-batch).
+[flashblock_config]
+
+# Flashblock authentication API key (sent as `Authorization: <api_key>`).
+#auth = "<flashblock_auth_token>"
+auth = ""
+
+# Enable or disable Flashblock sender.
+enabled = "{enable_flashblock}"  # false
+
+# Minimum Flashblock tip value in RAW LAMPORTS.
+flashblock_min_tip = "{flashblock_min_tip}" # 3001000
+
+# Maximum Flashblock tip value in RAW LAMPORTS.
+flashblock_max_tip = "{flashblock_max_tip}" #22500000
+
+# Minimum priority fee PER TRANSACTION in RAW LAMPORTS.
+# Internally this is converted into a ComputeBudget "micro-lamports per CU" price.
+flashblock_min_prio = "{flashblock_min_prio}" #100
+
+# Maximum priority fee PER TRANSACTION in RAW LAMPORTS.
+flashblock_max_prio = "{flashblock_max_prio}" #500
+
+# Flashblock cooldown period between transactions (in milliseconds).
+flashblock_cooldown_ms = "{flashblock_cooldown_ms}" #320
+
+
+
+
+# Astralane (Txn V2 /iris2, text/plain).
+[astra_config]
+
+# API key used as the `api-key` query parameter (Txn V2).
+api_key = "<astra_api_key>"
+
+# Enable or disable Astra sender (hot-reload key: `enable_astra`).
+enable_astra = "{enable_astra}" #false
+
+# Minimum Astra tip value in RAW LAMPORTS (hot-reload key: `enable_astra_min_tip`).
+enable_astra_min_tip = "{enable_astra_min_tip}" #11000
+
+# Maximum Astra tip value in RAW LAMPORTS (hot-reload key: `enable_astra_max_tip`).
+enable_astra_max_tip = "{enable_astra_max_tip}" #30000
+
+# Minimum priority fee PER TRANSACTION in RAW LAMPORTS.
+astra_min_prio = "{astra_min_prio}" #100
+
+# Maximum priority fee PER TRANSACTION in RAW LAMPORTS.
+astra_max_prio = "{astra_max_prio}" #500
+
+# Astra cooldown period between transactions (in milliseconds).
+astralane_cooldown_ms = "{astralane_cooldown_ms}" #300
+
+
+
+# HelloMoon (JSON-RPC sendTransaction).
+# Endpoints are defined in code (`src/senders/hellomoon_fanout.rs`).
+[hellomoon_config]
+
+# API key appended as `api-key` query parameter to each built-in endpoint.
+#api_key = "<hellomoon_api_key>"
+api_key = ""
+
+# Enable or disable HelloMoon sender (hot-reload key: `enable_hellomoon`).
+enable_hellomoon = "{enable_hellomoon}" #false
+
+# Minimum HelloMoon tip value in RAW LAMPORTS (hot-reload key: `hellomoon_min_tip`).
+hellomoon_min_tip = "{hellomoon_min_tip}" #1000000
+
+# Maximum HelloMoon tip value in RAW LAMPORTS (hot-reload key: `hellomoon_max_tip`).
+hellomoon_max_tip = "{hellomoon_max_tip}" #10000000
+
+# Minimum priority fee PER TRANSACTION in RAW LAMPORTS (hot-reload key: `hellomoon_min_prio`).
+hellomoon_min_prio = "{hellomoon_min_prio}" #100
+
+# Maximum priority fee PER TRANSACTION in RAW LAMPORTS (hot-reload key: `hellomoon_max_prio`).
+hellomoon_max_prio = "{hellomoon_max_prio}" #1000
+
+# HelloMoon cooldown period between transactions (in milliseconds) (hot-reload key: `hellomoon_cooldown_ms`).
+hellomoon_cooldown_ms = "{hellomoon_cooldown_ms}" #300
