@@ -1,6 +1,6 @@
 {
 
-    "enable_cu_limit":  330525,
+    "enable_cu_limit":  350000,
 
     "enable_strats": true,
     "enable_min_prio": 5010,
