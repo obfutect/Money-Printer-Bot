@@ -31,7 +31,7 @@ Current venue support includes:
 - Meteora DAMM2
 - Raydium CPMM
 - Pump AMM
-- Pseudo tri-hop/quad-hop via USD1 and USDC stable coins
+- Pseudo tri-hop (bridged) via USD1 and USDC stable coins
 
 Current execution paths include:
 - RPC fanout
