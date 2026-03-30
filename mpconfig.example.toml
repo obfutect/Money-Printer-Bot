@@ -38,6 +38,8 @@ server_enabled = false
 password = ""
 # Embedded server port. Default is 9090.
 port = 9090
+# Startup in paused mode is currently controlled by CLI flag `--paused`,
+# not by a dedicated mpconfig field.
 
 # Optional WSOL auto-unwrap protection.
 # If enabled and wallet SOL drops below `minimum_balance`,
@@ -141,6 +143,10 @@ auth = ""
 # Enable or disable Jito
 enabled = "{enable_jito}" #false
 
+# Require the route profit to cover base fees and the configured Jito tip.
+# If set to false, Jito may still send transactions that are net-negative after tip/fees.
+require_profit = "{jito_require_profit}" # true
+
 # Minimum Jito tip value in RAW LAMPORTS
 tip_lamports_from = "{enable_jito_min_tip}" #1000
 
@@ -202,6 +208,10 @@ helius_cooldown_ms = "{helius_cooldown_ms}"  # 280
 
 # Enable or disable Helius SWQOS sender.
 enabled = "{enable_helius_swqos}" # false
+
+# Require the route profit to cover base fees and the configured Helius SWQOS tip.
+# If set to false, Helius SWQOS may still send transactions that are net-negative after tip/fees.
+require_profit = "{helius_swqos_require_profit}" # true
 
 # Minimum Helius SWQOS tip value in RAW LAMPORTS.
 helius_swqos_min_tip = "{helius_swqos_min_tip}" # 6000
