@@ -59,7 +59,24 @@ Actual performance depends heavily on hardware quality, network quality, market 
 2. Extract the release package.
 3. Review `mpconfig.example.toml`.
 4. Set your keypair path, RPC endpoints, and market sources.
-5. Launch the bot.
+5. Use `launcher/mp.sh` to install or update the binary and launch the bot.
+
+Example:
+
+```bash
+cd launcher
+chmod +x mp.sh
+./mp.sh --server
+```
+
+To stop the bot:
+
+```bash
+cd launcher
+./mp.sh stop
+```
+
+The launcher script is the recommended way to manage the release binary. It can download the latest GitHub release, start the bot, and stop the running instance.
 
 ## Server Mode and Web Dashboard
 
