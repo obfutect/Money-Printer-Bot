@@ -23,7 +23,7 @@
 Money Printer 按以下顺序解析主配置文件路径：
 
 1. 环境变量 `MP_CONFIG`
-2. `--config <path>` 或 `-c <path>`
+2. `--config <path>`、`-c <path>` 或 `--config=<path>`
 3. 与可执行文件位于同一目录下的 `mpconfig.toml`
 
 重要说明：
@@ -44,6 +44,9 @@ Money Printer 按以下顺序解析主配置文件路径：
 - `info_rpc_fallback`
 - `base_token`
 - `key_pair.path_to_secret`
+- `server_config.server_enabled`
+- `server_config.password`
+- `server_config.port`
 - `external_config.markets`
 - `external_config.lut`
 - `external_config.misc`
@@ -243,6 +246,75 @@ Type: `string`
 首次运行时，如果 `keypair` 文件尚未加密，程序会自动对其进行加密。
 
 该值属于 startup-fixed，不能使用 placeholder。
+
+## `[server_config]`
+
+内置网页控制面板的可选配置 section。
+
+该 section 控制内置浏览器界面及其监听端口，但启动时命令行参数仍然可以覆盖其中的部分值。
+
+### `server_enabled`
+
+Type: `bool`, optional
+
+通过配置启用内置服务器模式。
+
+当前行为：
+- 如果值为 `true`，机器人会在不传入 `--server` 的情况下启动内置网页面板
+- 如果值为 `false` 或未设置，仍然可以通过命令行 `--server` 启用服务器模式
+
+### `password`
+
+Type: `string`, optional
+
+浏览器控制面板使用的密码。
+
+该字段属于 startup-fixed，必须是字面量字符串。
+
+启动时实际的密码优先级：
+1. `BOT_PASSWD`
+2. `--server-pass`
+3. `server_config.password`
+4. 启动时生成并打印的随机密码
+
+### `port`
+
+Type: `u16`, optional
+
+内置服务器的监听端口。
+
+当前行为：
+- 默认值为 `9090`
+- `--port` 会覆盖 `server_config.port`
+
+## `[auto_unwrap]`
+
+WSOL 余额保护的可选 section。
+
+该 section 在 `base_token` 为 WSOL 时才有意义。
+
+### `enabled`
+
+Type: bindable `bool`
+
+控制当钱包中的 SOL 余额低于设定最小值时，机器人是否允许自动解包 WSOL。
+
+### `minimum_balance`
+
+Type: bindable `u64`, optional
+
+钱包中的最小 SOL 余额，单位为原始 lamports。
+
+当前行为：
+- 如果该字段缺失，则不会启用基于余额的发送限制
+- 如果该字段存在且 `enabled = false`，那么当 SOL 余额低于阈值时会跳过常规发送
+- 如果该字段存在且 `enabled = true`，机器人可能会发送维护交易，从 WSOL 中恢复 SOL
+
+当前 auto-unwrap 的实现：
+- 维护路径独立于常规交易发送
+- 会构建一笔 versioned transaction，在同一笔交易中关闭 canonical WSOL ATA 并重新创建它
+- 会持续重试，直到交易被接受且事后条件得到确认
+- 如果可用的 WSOL 仍不足以把 SOL 余额抬回到设定的最小值之上，那么在余额低于阈值期间，常规发送仍会继续被跳过
 
 ## `[external_config]`
 
@@ -777,6 +849,14 @@ HelloMoon sender 的 cooldown，单位为毫秒。
 ### 6. 支持外部 URL
 
 `markets`、`lut` 和 `misc` 来源可以通过 HTTP 或 HTTPS 提供。如果你现有的自动化系统已经从中心位置发布机器人配置文件，这会很有用。
+
+### 7. 暂停会影响交易，但不会停止所有维护任务
+
+暂停机器人会停止常规交易发送，但独立的维护任务在需要时仍然可以继续运行。
+
+### 8. 手动 market 模式不会停止 LUT 更新
+
+手动 market 模式会抑制从已配置来源自动重载 `markets`，但 LUT 重载仍会继续。
 
 ## 推荐的起步方式
 

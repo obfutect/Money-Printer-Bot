@@ -23,7 +23,7 @@ The file is read once at startup. It is not watched for changes. If you edit `mp
 Money Printer resolves the main config path in this order:
 
 1. `MP_CONFIG` environment variable
-2. `--config <path>` or `-c <path>`
+2. `--config <path>`, `-c <path>`, or `--config=<path>`
 3. `mpconfig.toml` next to the executable
 
 Important:
@@ -44,6 +44,9 @@ These must be literal strings or numbers in `mpconfig.toml`. They cannot use `{p
 - `info_rpc_fallback`
 - `base_token`
 - `key_pair.path_to_secret`
+- `server_config.server_enabled`
+- `server_config.password`
+- `server_config.port`
 - `external_config.markets`
 - `external_config.lut`
 - `external_config.misc`
@@ -243,6 +246,75 @@ Expected format:
 On first run, the keypair file is encrypted automatically if it is not already encrypted.
 
 This value is startup-fixed and cannot be placeholder-bound.
+
+## `[server_config]`
+
+Optional embedded web dashboard configuration.
+
+This section controls the built-in browser UI and its listen port, but command-line flags can still override parts of it at startup.
+
+### `server_enabled`
+
+Type: `bool`, optional
+
+Enables embedded server mode from configuration.
+
+Current behavior:
+- if `true`, the bot starts the embedded web dashboard without requiring `--server`
+- if `false` or omitted, `--server` can still enable server mode from the command line
+
+### `password`
+
+Type: `string`, optional
+
+Password for the browser dashboard.
+
+This field is startup-fixed and must be a literal string.
+
+Actual password priority at startup:
+1. `BOT_PASSWD`
+2. `--server-pass`
+3. `server_config.password`
+4. generated password printed at startup
+
+### `port`
+
+Type: `u16`, optional
+
+Embedded server listen port.
+
+Current behavior:
+- default is `9090`
+- `--port` overrides `server_config.port`
+
+## `[auto_unwrap]`
+
+Optional WSOL balance-protection section.
+
+This section is relevant when `base_token` is WSOL.
+
+### `enabled`
+
+Type: bindable `bool`
+
+Controls whether the bot is allowed to automatically unwrap WSOL when wallet SOL falls below the configured minimum.
+
+### `minimum_balance`
+
+Type: bindable `u64`, optional
+
+Minimum wallet SOL balance, in raw lamports.
+
+Current behavior:
+- if this field is missing, no balance-based submission gating is applied
+- if this field is present and `enabled = false`, normal submission is skipped while wallet SOL is below the threshold
+- if this field is present and `enabled = true`, the bot may send a maintenance transaction to recover SOL from WSOL
+
+Current auto-unwrap implementation:
+- the maintenance path is independent from normal trading submission
+- it builds one versioned transaction that closes the canonical WSOL ATA and recreates it in the same transaction
+- retries continue until the transaction is accepted and the postcondition is confirmed
+- if available WSOL is not enough to raise wallet SOL above the configured minimum, normal submission remains skipped while the balance stays below the threshold
 
 ## `[external_config]`
 
@@ -777,6 +849,14 @@ Reloading markets or LUTs changes what the bot can build and send. Treat these f
 ### 6. External URLs are supported
 
 Markets, LUTs, and misc sources may be served over HTTP or HTTPS. This is useful if your existing automation already publishes bot config files from a central location.
+
+### 7. Pause affects trading, not all maintenance
+
+Pausing the bot stops normal trade submission, but independent maintenance tasks can still continue when needed.
+
+### 8. Manual market mode does not stop LUT updates
+
+Manual market mode suppresses automatic `markets` reload from the configured source, but LUT reloads still continue.
 
 ## Recommended Starting Pattern
 

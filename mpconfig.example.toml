@@ -28,6 +28,25 @@ enable_flash = true
 #path_to_secret="/home/user/.config/solana/your-keypair.json"
 path_to_secret="/path/to/your-keypair.json"
 
+# Embedded web dashboard configuration.
+# This section is optional.
+[server_config]
+# Enable embedded server mode.
+server_enabled = false
+# Server password used by the browser UI.
+# Leave empty only if you want to provide it via BOT_PASSWD or --server-pass.
+password = ""
+# Embedded server port. Default is 9090.
+port = 9090
+
+# Optional WSOL auto-unwrap protection.
+# If enabled and wallet SOL drops below `minimum_balance`,
+# the bot will try to unwrap WSOL to restore SOL balance.
+[auto_unwrap]
+enabled = false
+# Raw lamports.
+minimum_balance = 20_000_000
+
 # External information sources. Each setting here is optional
 [external_config]
 # This should provide the path to a file contaning market addresses in a form
