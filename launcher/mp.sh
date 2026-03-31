@@ -11,7 +11,7 @@ BINARY_PATH="$INSTALL_DIR/$BINARY_NAME"
 LOG_FILE=""     # Set to a path to log to file, e.g. "$INSTALL_DIR/bot.log". Empty = stdout.
 # ─────────────────────────────────────────────────────────────────────────────
 # ── Passthrough flags (run binary directly, no PID/update logic) ─────────────
-PASSTHROUGH_FLAGS=("--help" "--action")
+PASSTHROUGH_FLAGS=("--help" "--action" "--unwrap" "--wrap" "-u" "-w")
 # ─────────────────────────────────────────────────────────────────────────────
 
 API_URL="https://api.github.com/repos/$REPO/releases/latest"
