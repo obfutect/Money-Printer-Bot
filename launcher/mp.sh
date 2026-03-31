@@ -106,12 +106,16 @@ cmd_start() {
     echo "Starting bot with args: $*"
     if [[ -n "$LOG_FILE" ]]; then
         nohup "$BINARY_PATH" "$@" > "$LOG_FILE" 2>&1 &
+        echo $! > "$PID_FILE"
         echo "Bot started (PID $!). Log: $LOG_FILE"
     else
         "$BINARY_PATH" "$@" &
-        echo "Bot started (PID $!)."
+        local bot_pid=$!
+        echo $bot_pid > "$PID_FILE"
+        trap 'echo "Stopping..."; kill -9 $bot_pid 2>/dev/null; rm -f "$PID_FILE"; exit' INT TERM
+        wait $bot_pid
+        rm -f "$PID_FILE"
     fi
-    echo $! > "$PID_FILE"
 }
 
 # ── Entry point ───────────────────────────────────────────────────────────────
