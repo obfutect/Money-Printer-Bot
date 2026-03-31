@@ -106,19 +106,6 @@ cool_down = "{spam_cooldown_ms}"  # 320
 
 retries = 0
 
-# RPC client networking options.
-# If unsure, leave these at their defaults.
-# Max idle connections kept per host in the HTTP pool.
-pool_max_idle_per_host = 32
-# How long to keep an idle pooled connection (in milliseconds).
-pool_idle_timeout_ms = 1000
-# TCP keepalive duration for pooled connections (in seconds).
-tcp_keepalive_secs =10  # 20
-# Overall request timeout (in milliseconds).
-timeout_ms = 800 # 500
-# Connection timeout (in milliseconds).
-connect_timeout_ms = 300 # 250
-
 #==== SENDERS =====
 
 ########### Jito transactions configuration ##########
@@ -156,20 +143,6 @@ tip_lamports_to = "{enable_jito_max_tip}" #2000
 jito_cooldown_ms = "{jito_cooldown_ms}"
 jito_min_prio = "{jito_min_prio}"
 jito_max_prio = "{jito_max_prio}"
-
-
-# Jito HTTP client networking options (independent from `[rpc_config]`).
-# If unsure, leave these at their defaults.
-# Max idle connections kept per host in the HTTP pool.
-pool_max_idle_per_host = 32
-# How long to keep an idle pooled connection (in milliseconds).
-pool_idle_timeout_ms = 10000
-# TCP keepalive duration for pooled connections (in seconds).
-tcp_keepalive_secs = 10
-# Overall request timeout (in milliseconds).
-timeout_ms = 800
-# Connection timeout (in milliseconds).
-connect_timeout_ms = 600
 
 
 
